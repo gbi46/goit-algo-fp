@@ -24,3 +24,13 @@ class LinkedList:
             elements.append(current.data)
             current = current.next
         print(" -> ".join(map(str, elements)))
+
+    def reverse(self):
+        prev = None
+        current = self.head
+        while current:
+            next_node = current.next
+            current.next = prev
+            prev = current
+            current = next_node
+        self.head = prev
