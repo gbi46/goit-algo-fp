@@ -15,5 +15,9 @@ def main():
     print("Reversed Linked List:")
     linked_list.print_list()
 
+    linked_list.sort()
+    print("Sorted Linked List:")
+    linked_list.print_list()
+
 if __name__ == "__main__":
     main()
