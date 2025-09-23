@@ -34,3 +34,41 @@ class LinkedList:
             prev = current
             current = next_node
         self.head = prev
+
+    def _merge_sort(self, head):
+        if not head or not head.next:
+            return head
+
+        # Find middle using slow/fast pointer
+        slow, fast = head, head.next
+
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        # If odd length, slow is middle element
+        mid = slow.next
+        slow.next = None
+        left = self._merge_sort(head)
+        right = self._merge_sort(mid)
+
+        return self._merge(left, right)
+
+    def _merge(self, l1, l2):
+        dummy = Node(0)
+        curr = dummy
+
+        while l1 and l2:
+            if l1.data < l2.data:
+                curr.next = l1
+                l1 = l1.next
+            else:
+                curr.next = l2
+                l2 = l2.next
+            curr = curr.next
+
+        curr.next = l1 if l1 else l2
+        return dummy.next
+    
+    def sort(self):
+        self.head = self._merge_sort(self.head)
