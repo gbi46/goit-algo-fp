@@ -72,3 +72,24 @@ class LinkedList:
     
     def sort(self):
         self.head = self._merge_sort(self.head)
+
+def merge_sorted_lists(l1, l2):
+    dummy = Node(0)
+    curr = dummy
+
+    h1, h2 = l1.head, l2.head
+
+    while h1 and h2:
+        if h1.data < h2.data:
+            curr.next = h1
+            h1 = h1.next
+        else:
+            curr.next = h2
+            h2 = h2.next
+        curr = curr.next
+
+    curr.next = h1 if h1 else h2
+
+    merged = LinkedList()
+    merged.head = dummy.next
+    return merged
