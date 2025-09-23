@@ -1,5 +1,8 @@
+from colorama import Fore, init
 from lib.common import print_task_header
 from lib.linked_list import LinkedList
+
+init(autoreset=True)
 
 def main():
     print_task_header(1)
@@ -8,15 +11,15 @@ def main():
     for value in [3, 1, 4, 1, 5, 9, 2, 6, 5]:
         linked_list.append(value)
 
-    print("Original Linked List:")
+    print(Fore.BLUE + "Original Linked List:")
     linked_list.print_list()
 
     linked_list.reverse()
-    print("Reversed Linked List:")
+    print(Fore.BLUE + "Reversed Linked List:")
     linked_list.print_list()
 
     linked_list.sort()
-    print("Sorted Linked List:")
+    print(Fore.BLUE + "Sorted Linked List:")
     linked_list.print_list()
 
 if __name__ == "__main__":
