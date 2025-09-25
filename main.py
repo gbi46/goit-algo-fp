@@ -1,4 +1,5 @@
 from colorama import Fore, init
+from lib.dijkstra import Graph, dijkstra, reconstruct_path
 from lib.common import print_task_header
 from lib.linked_list import LinkedList, merge_sorted_lists
 from lib.pifagor_tree import pythagoras_tree
@@ -10,6 +11,7 @@ init(autoreset=True)
 
 def main():
     print_task_header(1)
+    print(Fore.GREEN + "Linked List Operations:")
     linked_list = LinkedList()
     
     for value in [3, 1, 4, 1, 5, 9, 2, 6, 5]:
@@ -40,6 +42,7 @@ def main():
 
     time.sleep(1)
     print_task_header(2)
+    print(Fore.GREEN + "Pythagoras Tree Visualization:")
 
     plt.ion()
     fig, ax = None, None
@@ -87,7 +90,32 @@ def main():
     plt.ioff()
     plt.draw()
 
-print_task_header(3)
+    print_task_header(3)
+    print(Fore.GREEN + "Dijkstra's Algorithm for Shortest Paths:")
+
+    # Example graph with vertices 0..5
+    g = Graph(6)
+    edges = [
+        (0, 1, 7), (0, 2, 9), (0, 5, 14),
+        (1, 2, 10), (1, 3, 15),
+        (2, 3, 11), (2, 5, 2),
+        (3, 4, 6),
+        (4, 5, 9),
+    ]
+    for u, v, w in edges:
+        g.add_edge(u, v, w)
+        g.add_edge(v, u, w)  # make it undirected for the example
+
+    src = 0
+    dist, parent = dijkstra(g, src)
+
+    print("Shortest distances from vertex", src, ":", dist)
+    for t in range(g.n):
+        path = reconstruct_path(parent, src, t)
+        if path is None:
+            print(f"Path {src}->{t}: unreachable")
+        else:
+            print(f"Path {src}->{t}: {path} (distance = {dist[t]})")
 
 if __name__ == "__main__":
     main()
