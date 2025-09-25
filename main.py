@@ -66,7 +66,7 @@ def main():
         print(Fore.GREEN + f"Recursion depth set to: {recursion_depth}")
 
         if fig is None:
-            fig, ax = plt.subplots(figsize=(8, 8))
+            fig, ax = plt.subplots(figsize=(8, 6))
             try:
                 fig.canvas.manager.set_window_title("Pythagoras Tree")
             except Exception:
@@ -76,7 +76,7 @@ def main():
         ax.set_aspect('equal')
         ax.axis('off')
 
-        pythagoras_tree(ax, x=0.0, y=0.0, size=1.0, angle=math.pi/4, depth=recursion_depth)
+        pythagoras_tree(ax, x=0.0, y=1.0, size=1.0, angle=math.pi/4, depth=recursion_depth)
 
         ax.set_xlim(-2.2, 2.2)
         ax.set_ylim(-0.2, 3.2)
@@ -86,6 +86,8 @@ def main():
 
     plt.ioff()
     plt.draw()
+
+print_task_header(3)
 
 if __name__ == "__main__":
     main()
