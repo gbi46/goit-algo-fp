@@ -215,7 +215,7 @@ def _draw_frame(G, pos, id_to_color, title, filename):
       - unvisited nodes shown in light gray
     """
     plt.close('all')
-    fig = plt.figure(figsize=(8, 5))
+    fig, ax = plt.subplots(figsize=(8, 5), constrained_layout=True)
     try:
         fig.canvas.manager.set_window_title(title)
     except Exception:
@@ -236,11 +236,10 @@ def _draw_frame(G, pos, id_to_color, title, filename):
         node_size=2500,
         node_color=colors
     )
-    plt.title(title)
-    plt.axis('off')
-    # Note: tight_layout on complex figures can warn; safe to omit if you prefer
-    plt.tight_layout()
-    plt.savefig(filename, dpi=140, bbox_inches="tight")
+    ax.set_title(title)
+    ax.set_axis_off()
+    
+    fig.savefig(filename, dpi=140, bbox_inches="tight")
     plt.close(fig)
 
 

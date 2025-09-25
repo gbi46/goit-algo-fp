@@ -1,12 +1,15 @@
 from colorama import Fore, init
 from lib.binary_tree import visualize_heap
+from lib.binary_tree_traversal import (
+   build_tree_from_level_array, make_traversal_gif, bfs_level_order_iter, dfs_preorder_iter 
+)
 from lib.dijkstra import Graph, dijkstra, reconstruct_path
 from lib.common import print_task_header
 from lib.linked_list import LinkedList, merge_sorted_lists
 from lib.pifagor_tree import pythagoras_tree
 
 import matplotlib.pyplot as plt
-import math, time
+import math, os, time
 
 init(autoreset=True)
 
@@ -135,6 +138,41 @@ def main():
 
     # Call the visualization
     visualize_heap(heap, color_fn=demo_color_fn, title="Min-Heap Example")
+
+    print_task_header(5)
+    print(Fore.GREEN + "Binary Tree Traversal Visualization.")
+    heap = [1, 3, 5, 7, 9, 11, 13]
+
+    def demo_color_fn(value, idx):
+        # Initial per-node color is irrelevant for traversal;
+        # every visited node gets a dynamic color later.
+        return "skyblue"
+
+    root = build_tree_from_level_array(heap, color_fn=demo_color_fn)
+
+    # Iterative traversals
+    dfs_nodes = dfs_preorder_iter(root)       # uses STACK
+    bfs_nodes = bfs_level_order_iter(root)    # uses QUEUE
+
+    # Output files
+    os.makedirs("out", exist_ok=True)
+    dfs_gif = os.path.join("out", "dfs_traversal.gif")
+    bfs_gif = os.path.join("out", "bfs_traversal.gif")
+
+    # Build animations (dark -> light)
+    make_traversal_gif(
+        root, dfs_nodes,
+        dark_hex="#10223A", light_hex="#9FD3FB",
+        out_path=dfs_gif, title_prefix="DFS (stack)", frame_duration=0.7
+    )
+    make_traversal_gif(
+        root, bfs_nodes,
+        dark_hex="#2B2B2B", light_hex="#E8E8E8",
+        out_path=bfs_gif, title_prefix="BFS (queue)", frame_duration=0.7
+    )
+
+    print("Saved:", dfs_gif)
+    print("Saved:", bfs_gif)
 
 if __name__ == "__main__":
     main()
