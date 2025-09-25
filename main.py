@@ -7,10 +7,14 @@ from lib.binary_tree_traversal import (
 from lib.dijkstra import Graph, dijkstra, reconstruct_path
 from lib.common import print_task_header
 from lib.linked_list import LinkedList, merge_sorted_lists
+from lib.monte_karlo_algo import (
+    theoretical_probabilities, simulate_two_dice,
+    compare_probabilities, print_table, save_plot
+)
 from lib.pifagor_tree import pythagoras_tree
 
 import matplotlib.pyplot as plt
-import math, os, time
+import json, math, os, time
 
 init(autoreset=True)
 
@@ -194,6 +198,37 @@ def main():
 
     d_set, d_cost, d_cal = dynamic_programming(items, budget)
     print("DP    :", d_set, "| cost =", d_cost, "| calories =", d_cal)
+
+    print_task_header(7)
+    print(Fore.GREEN + "Monte Carlo Simulation of Two Dice Rolls:")
+    try:
+        rolls = int(input("Enter number of dice rolls (default 1000000): ") or 1000000)
+    except ValueError:
+        print("Invalid input, using default 1000000.")
+        rolls = 1000000
+
+    theoretical = theoretical_probabilities()
+    empirical, _ = simulate_two_dice(rolls)
+
+    print_table(empirical, theoretical)
+
+    metrics = compare_probabilities(empirical, theoretical)
+    print("\nError metrics:")
+    for k, v in metrics.items():
+        print(f"  {k}: {v:.8f}")
+
+    out_file = save_plot(empirical, theoretical, "probabilities.png")
+    print(f"\nSaved comparison plot to: {out_file}")
+
+    results = {
+        "rolls": rolls,
+        "empirical": empirical,
+        "theoretical": theoretical,
+        "metrics": metrics,
+    }
+    with open("results.json", "w", encoding="utf-8") as f:
+        json.dump(results, f, ensure_ascii=False, indent=2)
+    print("Saved results to results.json")
 
 if __name__ == "__main__":
     main()
