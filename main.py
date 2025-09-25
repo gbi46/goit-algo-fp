@@ -1,4 +1,5 @@
 from colorama import Fore, init
+from lib.algorithms import greedy_algorithm, dynamic_programming
 from lib.binary_tree import visualize_heap
 from lib.binary_tree_traversal import (
    build_tree_from_level_array, make_traversal_gif, bfs_level_order_iter, dfs_preorder_iter 
@@ -173,6 +174,26 @@ def main():
 
     print("Saved:", dfs_gif)
     print("Saved:", bfs_gif)
+
+    print_task_header(6)
+    print(Fore.GREEN + "Demonstate greedy and dynamic algorithms")
+
+    items = {
+        "pizza": {"cost": 50, "calories": 300},
+        "hamburger": {"cost": 40, "calories": 250},
+        "hot-dog": {"cost": 30, "calories": 200},
+        "pepsi": {"cost": 10, "calories": 100},
+        "cola": {"cost": 15, "calories": 220},
+        "potato": {"cost": 25, "calories": 350}
+    }
+
+    budget = 100
+
+    g_set, g_cost, g_cal = greedy_algorithm(items, budget)
+    print("Greedy:", g_set, "| cost =", g_cost, "| calories =", g_cal)
+
+    d_set, d_cost, d_cal = dynamic_programming(items, budget)
+    print("DP    :", d_set, "| cost =", d_cost, "| calories =", d_cal)
 
 if __name__ == "__main__":
     main()
