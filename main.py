@@ -1,4 +1,5 @@
 from colorama import Fore, init
+from lib.binary_tree import visualize_heap
 from lib.dijkstra import Graph, dijkstra, reconstruct_path
 from lib.common import print_task_header
 from lib.linked_list import LinkedList, merge_sorted_lists
@@ -48,13 +49,13 @@ def main():
     fig, ax = None, None
 
     while True:
-        cmd = input(Fore.YELLOW + "Enter 'q' to quit or recursion depth: ").strip().lower()
+        cmd = input(Fore.YELLOW + "Enter 'q' to jump to task 3 or recursion depth: ").strip().lower()
 
         if cmd.lower() == 'q':
             break
 
         if not cmd.isdigit():
-            print(Fore.RED + "Please enter a valid number or 'q' to quit.")
+            print(Fore.RED + "Please enter a valid number or 'q' to jump to task 3.")
             continue
 
         recursion_depth = int(cmd)
@@ -116,6 +117,24 @@ def main():
             print(f"Path {src}->{t}: unreachable")
         else:
             print(f"Path {src}->{t}: {path} (distance = {dist[t]})")
+
+    print_task_header(4)
+    print(Fore.GREEN + "Binary Heap Visualization:")
+
+    # Example: a min-heap in array form
+    heap = [1, 3, 5, 7, 9, 11, 13]
+
+    # Optional: coloring function (different color for root and leaves)
+    def demo_color_fn(value, idx):
+        if idx == 0:  # root
+            return "lightgreen"
+        li, ri = 2 * idx + 1, 2 * idx + 2
+        if li >= len(heap) and ri >= len(heap):  # leaf
+            return "lightcoral"
+        return "skyblue"
+
+    # Call the visualization
+    visualize_heap(heap, color_fn=demo_color_fn, title="Min-Heap Example")
 
 if __name__ == "__main__":
     main()

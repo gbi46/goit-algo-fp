@@ -50,6 +50,7 @@ def draw_tree(tree_root, title="Binary Heap"):
     """
     Draws the tree using matplotlib and networkx.
     """
+    plt.close('all')
     tree = nx.DiGraph()
     pos = {tree_root.id: (0, 0)}  # root at (0,0)
     tree = add_edges(tree, tree_root, pos)
@@ -58,7 +59,13 @@ def draw_tree(tree_root, title="Binary Heap"):
     colors = [node[1]['color'] for node in tree.nodes(data=True)]
     labels = {node[0]: node[1]['label'] for node in tree.nodes(data=True)}
 
-    plt.figure(figsize=(8, 5))
+    fig = plt.figure(num=title, figsize=(8, 5))
+
+    try:
+        fig.canvas.manager.set_window_title(title)
+    except Exception:
+        pass
+    
     nx.draw(tree, pos=pos, labels=labels, arrows=False,
             node_size=2500, node_color=colors)
     plt.title(title)
