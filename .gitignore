@@ -1,4 +1,5 @@
 out/
 probabilities.png
 __pycache__/
+results.json
 .venv/
